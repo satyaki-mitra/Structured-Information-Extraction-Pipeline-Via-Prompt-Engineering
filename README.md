@@ -1,4 +1,4 @@
-# Prompt Engineering Case Study: LinkedIn Job Data Extraction API
+# 🚀 Prompt Engineering Case Study: LinkedIn Job Data Extraction API
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.68+-green.svg)](https://fastapi.tiangolo.com/)
@@ -9,29 +9,49 @@
 
 This repository demonstrates **advanced prompt engineering techniques** through a real-world application: extracting structured job transition data from unstructured LinkedIn posts. Rather than relying on traditional NLP approaches, this project showcases how sophisticated prompt design can achieve superior results in complex information extraction tasks.
 
-## 🧠 Why Prompt Engineering?
+> 🔍 Focus: Transform raw LinkedIn data into meaningful insights with precise, prompt-based extraction logic.
 
-### The Traditional NLP Challenge
+---
 
-Conventional NLP approaches for job data extraction typically require:
-- **Extensive Training Data**: Thousands of labeled examples for each job category
-- **Feature Engineering**: Manual identification of linguistic patterns and keywords
-- **Model Training**: Weeks of computational resources for training custom models
-- **Domain Expertise**: Deep understanding of employment terminology and contexts
-- **Maintenance Overhead**: Regular retraining as language patterns evolve
+## 📚 Table of Contents
+- [Project Overview](#-project-overview)
+- [Why Prompt Engineering](#-why-prompt-engineering)
+- [Techniques Implemented](#-prompt-engineering-techniques-implemented)
+- [System Architecture](#-system-architecture)
+- [Quick Start](#-quick-start)
+- [Sample Testing](#-testing-with-sample-data)
+- [Configuration](#-configuration)
+- [API Endpoints](#-api-endpoints)
+- [CLI Usage](#-cli-functionality)
+- [Performance Metrics](#-performance-metrics)
+- [Prompt Engineering Deep Dive](#-prompt-engineering-deep-dive)
+- [Learning Resources](#-learning-resources)
+- [License](#-license)
+- [Acknowledgments](#-acknowledgments)
 
-### The Prompt Engineering Advantage
+---
 
-This project demonstrates how **strategic prompt engineering** overcomes these limitations:
+## ❓ Why Prompt Engineering?
 
-| Traditional NLP | Prompt Engineering Approach |
-|----------------|----------------------------|
-| Requires 1000+ labeled examples | Works with zero training data |
-| Weeks of model training | Immediate deployment |
-| Fixed classification categories | Dynamic, configurable logic |
-| Language-specific models | Naturally multilingual |
-| High computational costs | Cost-effective API calls |
-| Brittle to domain changes | Adaptable through prompt modification |
+### ✅ Traditional NLP Challenges
+
+| Limitations                            | Traditional NLP Approach             |
+|----------------------------------------|--------------------------------------|
+| Requires labeled datasets              | Thousands of examples needed         |
+| Intensive training & tuning            | Weeks of compute time                |
+| Brittle to domain and language changes | Needs retraining                     |
+| High maintenance overhead              | Feature & model drift                |
+
+### 💡 Prompt Engineering Benefits
+
+| Advantage                          | Prompt Engineering Approach         |
+|-----------------------------------|-------------------------------------|
+| Zero-shot or few-shot learning    | No training data needed             |
+| Immediate deployment              | Just design and test the prompt     |
+| Cost-effective                    | API-based, no infra dependency      |
+| Flexible & scalable               | Easily modifiable & multilingual    |
+
+---
 
 ## 🔬 Prompt Engineering Techniques Implemented
 
@@ -69,7 +89,7 @@ Utilizes multiple input dimensions:
 - **Post Content**: Main announcement text
 - **About Section**: Additional context for disambiguation
 
-### 6. **Dynamic Classification Logic**
+### 6. **Dynamic Multi-Class Classification Logic**
 Five-category classification system embedded in the prompt:
 1. New job joining (internal/external)
 2. Job change or transition
@@ -128,10 +148,16 @@ Built-in prompt instructions for handling:
 
 ```bash
 .
-├── extract_data_api.py             # FastAPI application entry point
+├── data_extractor_api.py           # 🚀 FastAPI application entry point
+├── main.py                         # Alternative CLI entry point 
+├── config.py                       # Application configuration
+├── model_config.py                 # OpenAI model parameters
 ├── requirements.txt                # Python dependencies
 ├── README.md                       # This documentation
-├── .env.example                    # Environment variables template
+├── data/
+│   └── sample_data.json            # Sample input data for testing
+├── results/
+│   └── sample_data_response.json   # Sample output responses
 └── src/
     ├── gpt_prompt_creator.py       # 🧠 Core prompt engineering logic
     ├── gpt_client_creator.py       # OpenAI client configuration
@@ -166,37 +192,69 @@ Built-in prompt instructions for handling:
    pip install -r requirements.txt
    ```
 
-3. **Configure environment variables**
+3. **Configure model parameters**
    ```bash
-   cp .env.example .env
-   # Edit .env with your OpenAI API key and other configurations
+   # Edit model_config.py with your OpenAI API key
+   OPENAI_API_KEY = "your-openai-api-key-here"
+   ```
+   
+   Or set up environment variables (recommended for production):
+   ```bash
+   export OPENAI_API_KEY="your-openai-api-key-here"
    ```
 
 4. **Run the application**
    ```bash
-   python extract_data_api.py
+   python data_extractor_api.py
    ```
 
-The API will be available at `http://localhost:8000`
+The API will be available at `http://localhost:8001`
+
+## 🧪 Testing with Sample Data
+
+The repository includes sample data for immediate testing:
+
+### Sample Input (`data/sample_data.json`)
+```json
+[
+  {
+    "name": "John Smith",
+    "about": "HR Director at TechCorp",
+    "description": "Thrilled to announce that Sarah Johnson has joined our team as Senior Data Scientist!",
+    "userProfileUrl": "https://linkedin.com/in/johnsmith",
+    "source": "LinkedIn",
+    "searchJobTitle": "Data Scientist",
+    "companyLinks": ["https://techcorp.com"]
+  }
+]
+```
+
+### Expected Output (`results/sample_data_response.json`)
+See the results directory for complete sample responses demonstrating the prompt engineering effectiveness.
 
 ## 🔧 Configuration
 
-### Environment Variables
+### Model Configuration (`model_config.py`)
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `OPENAI_API_KEY` | OpenAI API authentication key | - | ✅ |
-| `OPENAI_MODEL_NAME` | GPT model to use | `gpt-3.5-turbo` | ❌ |
-| `GPT_TIMEOUT` | API request timeout (seconds) | `10` | ❌ |
-| `GPT_MAX_RETRIES` | Maximum retry attempts | `5` | ❌ |
-| `GPT_MODEL_TEMPERATURE` | Model creativity (0.0-1.0) | `0.0` | ❌ |
-| `GPT_SEED` | Reproducibility seed | `42` | ❌ |
-| `GPT_MAX_TOKENS` | Maximum response tokens | `512` | ❌ |
-| `BATCH_SIZE` | Processing batch size | `10` | ❌ |
-| `BASE_DELAY` | Rate limiting delay | `0` | ❌ |
-| `APPLICATION_HOST` | API host | `127.0.0.1` | ❌ |
-| `APPLICATION_PORT` | API port | `8000` | ❌ |
-| `WORKERS` | Uvicorn workers | `1` | ❌ |
+| Parameter | Description | Default | Purpose |
+|-----------|-------------|---------|---------|
+| `OPENAI_API_KEY` | OpenAI API authentication | - | Required for API access |
+| `OPENAI_MODEL_NAME` | GPT model version | `gpt-3.5-turbo-instruct` | Optimized for completion tasks |
+| `MAX_RETRIES` | API retry attempts | `10` | Handles rate limiting |
+| `TIMEOUT` | Request timeout (seconds) | `30` | Prevents hanging requests |
+| `MODEL_TEMPERATURE` | Response creativity | `0.0` | Ensures consistent extraction |
+| `SEED` | Reproducibility seed | `1234` | Deterministic outputs |
+| `MAX_TOKENS` | Maximum response length | `2048` | Accommodates complex extractions |
+| `BASE_DELAY` | Rate limit delay | `1` | Exponential backoff base |
+
+### Application Configuration (`config.py`)
+
+| Parameter | Description | Default | Purpose |
+|-----------|-------------|---------|---------|
+| `APPLICATION_HOST` | Server host | `localhost` | Local development |
+| `APPLICATION_PORT` | Server port | `8001` | API endpoint |
+| `BATCH_SIZE` | Processing batch size | `20` | Concurrent processing limit |
+| `WORKERS` | Uvicorn workers | `4` | Parallel request handling |
 
 ## 📡 API Endpoints
 
@@ -240,35 +298,84 @@ POST /extract_information_gpt
   ]
 }
 ```
+---
 
-## 🐳 Docker Deployment
+## 🖥️ CLI Functionality:
 
-### Build Image
+- **Default Usage**: python main.py (uses data/sample_data.json by default)
+- **Custom Input**: python main.py --input data/custom_data.json
+- **Custom Output**: python main.py --output results/my_output.json
+- **Batch Processing**: python main.py --batch-size 10
+
+### Prompt Engineering Focus:
+
+- Uses the same src/ modules as your API
+- Demonstrates identical prompt engineering techniques
+- Processes data in configurable batches for efficiency
+- Maintains all the sophisticated extraction logic
+
+### Professional CLI Features:
+
+- Progress Tracking: Shows processing progress and statistics
+- Error Handling: Graceful handling of invalid data and API errors
+- Structured Output: JSON with metadata and processing statistics
+- Logging: Comprehensive logging with request tracking
+- Validation: Input data validation using your Pydantic models
+
+**Output Structure:**
+```json
+{
+  "metadata": {
+    "timestamp": "2024-01-15T10:30:45",
+    "total_processed": 25,
+    "successful_extractions": 23,
+    "errors": 2,
+    "batch_size": 5,
+    "prompt_engineering_model": "gpt-3.5-turbo-instruct",
+    "processing_type": "CLI Batch Processing"
+  },
+  "results": [ /* extracted data here */ ]
+}
+```
+### Usage Examples:
+- 1. **Basic usage with defaults**
 ```bash
-docker build -t linkedin-job-extractor .
+python main.py
 ```
 
-### Run Container
+- 2. **Custom input file**
+``` bash
+python main.py --input data/my_linkedin_posts.json
+```
+
+- 3. **Custom output location**
 ```bash
-docker run -d \
-  -p 8000:8000 \
-  --env-file .env \
-  --name job-extractor \
-  linkedin-job-extractor
+python main.py --output results/analysis_2024.json
 ```
 
-### Docker Compose (Recommended)
-```yaml
-version: '3.8'
-services:
-  api:
-    build: .
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    restart: unless-stopped
+- 4. **Larger batch size for faster processing**
+```bash
+python main.py --batch-size 15 --verbose
 ```
+
+- 5. **Complete custom run**
+```bash
+python main.py -i data/test.json -o results/test_output.json -b 3 -v
+```
+
+## Experimental Value:
+
+The CLI demonstrates:
+
+- Async Processing: Concurrent batch processing
+- Error Recovery: Handling individual item failures
+- Progress Monitoring: Real-time processing feedback
+- Data Validation: Pydantic model integration
+- Structured Logging: Professional logging practices
+
+This CLI perfectly complements your API by providing a standalone way to test and demonstrate your prompt engineering techniques!
+
+----
 
 ## 📊 Performance Metrics
 
@@ -311,23 +418,6 @@ The main prompt in `gpt_prompt_creator.py` demonstrates several advanced techniq
 "If any information is uncertain or not explicitly mentioned, use 'Unknown'..."
 ```
 
-## 🤝 Contributing
-
-We welcome contributions that enhance the prompt engineering techniques demonstrated in this project:
-
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/enhanced-prompts`)
-3. **Implement your prompt improvements**
-4. **Add tests and documentation**
-5. **Submit a pull request**
-
-### Contribution Areas
-- Additional prompt engineering techniques
-- Performance optimizations
-- New extraction categories
-- Multilingual prompt variations
-- Error handling improvements
-
 ## 📚 Learning Resources
 
 ### Recommended Reading
@@ -342,6 +432,12 @@ We welcome contributions that enhance the prompt engineering techniques demonstr
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+## 👤 Author
+
+**Satyaki Mitra**  
+*Data Scientist | ML Enthusiast*
 
 ## 🏆 Acknowledgments
 
