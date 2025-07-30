@@ -183,8 +183,8 @@ Built-in prompt instructions for handling:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/prompt-engineering-linkedin-job-extraction.git
-   cd prompt-engineering-linkedin-job-extraction
+   git clone https://github.com/satyaki-mitra/Structured-Information-Extraction-Pipeline-Via-Prompt-Engineering.git
+   cd Structured-Information-Extraction-Pipeline-Via-Prompt-Engineering
    ```
 
 2. **Install dependencies**
