@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "linkedin-job-extraction-api",
+		"name": "LinkedIn Job Extraction API",
+		"description": "API endpoints for extracting structured job information from LinkedIn posts using LLM and rule-based approaches",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health & Status",
+			"item": [
+				{
+					"name": "Root - API Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": ["{{base_url}}"],
+							"path": [""]
+						},
+						"description": "Get API information and available endpoints"
+					}
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						},
+						"description": "Check API health status"
+					}
+				}
+			]
+		},
+		{
+			"name": "LLM Extraction",
+			"item": [
+				{
+					"name": "Extract Single Post - LLM",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Sarah Johnson\",\n  \"about\": \"Senior HR Director | Talent Acquisition Expert\",\n  \"description\": \"Thrilled to announce that Michael Chen has joined our team as Chief Technology Officer at InnovateLabs! Welcome aboard, Michael!\",\n  \"userProfileUrl\": \"https://linkedin.com/in/sarahjohnson\",\n  \"source\": \"LinkedIn\",\n  \"searchJobTitle\": \"CTO\",\n  \"companyLinks\": [\"https://innovatelabs.com\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/extract/llm",
+							"host": ["{{base_url}}"],
+							"path": ["extract", "llm"]
+						},
+						"description": "Extract job information from a single LinkedIn post using LLM"
+					}
+				},
+				{
+					"name": "Extract Batch - LLM",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"name\": \"John Smith\",\n    \"about\": \"CEO | Technology Leader\",\n    \"description\": \"Excited to share that Lisa Anderson has been promoted to VP of Engineering at TechCorp!\",\n    \"userProfileUrl\": \"https://linkedin.com/in/johnsmith\",\n    \"source\": \"LinkedIn\",\n    \"searchJobTitle\": \"VP of Engineering\",\n    \"companyLinks\": [\"https://techcorp.com\"]\n  },\n  {\n    \"name\": \"Emily Davis\",\n    \"about\": \"Recruiter | Talent Acquisition\",\n    \"description\": \"We're hiring for a Senior Data Scientist position. Apply now!\",\n    \"userProfileUrl\": \"https://linkedin.com/in/emilydavis\",\n    \"source\": \"LinkedIn\",\n    \"searchJobTitle\": \"\",\n    \"companyLinks\": []\n  },\n  {\n    \"name\": \"Robert Wilson\",\n    \"about\": \"Board Member | Corporate Governance\",\n    \"description\": \"CloudSolutions announces the appointment of James Taylor as Chief Financial Officer, effective immediately.\",\n    \"userProfileUrl\": \"https://linkedin.com/in/robertwilson\",\n    \"source\": \"LinkedIn\",\n    \"searchJobTitle\": \"CFO\",\n    \"companyLinks\": [\"https://cloudsolutions.com\"]\n  }\n]"
+						},
+						"url": {
+							"raw": "{{base_url}}/extract/batch/llm",
+							"host": ["{{base_url}}"],
+							"path": ["extract", "batch", "llm"]
+						},
+						"description": "Extract job information from multiple LinkedIn posts using LLM (batch processing)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Rule-Based Extraction",
+			"item": [
+				{
+					"name": "Extract Single Post - Rule Based",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Michael Chen\",\n  \"about\": \"VP of Operations | Business Strategy\",\n  \"description\": \"I'm starting a new position as Director of Product at DataSystems Inc. Looking forward to this exciting opportunity!\",\n  \"userProfileUrl\": \"https://linkedin.com/in/michaelchen\",\n  \"source\": \"LinkedIn\",\n  \"searchJobTitle\": \"Director of Product\",\n  \"companyLinks\": [\"https://datasystems.com\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/extract/rule-based",
+							"host": ["{{base_url}}"],
+							"path": ["extract", "rule-based"]
+						},
+						"description": "Extract job information from a single LinkedIn post using rule-based approach"
+					}
+				},
+				{
+					"name": "Extract Batch - Rule Based",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"name\": \"Alex Turner\",\n    \"about\": \"Technology Consultant\",\n    \"description\": \"After an incredible journey, I'm transitioning to a new role as Head of Engineering at FinTech Global.\",\n    \"userProfileUrl\": \"https://linkedin.com/in/alexturner\",\n    \"source\": \"LinkedIn\",\n    \"searchJobTitle\": \"Head of Engineering\",\n    \"companyLinks\": [\"https://fintechglobal.com\"]\n  },\n  {\n    \"name\": \"Rachel Green\",\n    \"about\": \"HR Professional\",\n    \"description\": \"Proud to share that David Brown has been promoted to Senior Manager at our company!\",\n    \"userProfileUrl\": \"https://linkedin.com/in/rachelgreen\",\n    \"source\": \"LinkedIn\",\n    \"searchJobTitle\": \"Senior Manager\",\n    \"companyLinks\": []\n  }\n]"
+						},
+						"url": {
+							"raw": "{{base_url}}/extract/batch/rule-based",
+							"host": ["{{base_url}}"],
+							"path": ["extract", "batch", "rule-based"]
+						},
+						"description": "Extract job information from multiple LinkedIn posts using rule-based approach (batch)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Cases",
+			"item": [
+				{
+					"name": "Test - Irrelevant Post (Hiring)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Laura Martinez\",\n  \"about\": \"Recruiter | Talent Acquisition\",\n  \"description\": \"We're hiring for a Senior Software Engineer position at our company. Apply now if interested!\",\n  \"userProfileUrl\": \"https://linkedin.com/in/lauramartinez\",\n  \"source\": \"LinkedIn\",\n  \"searchJobTitle\": \"\",\n  \"companyLinks\": []\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/extract/llm",
+							"host": ["{{base_url}}"],
+							"path": ["extract", "llm"]
+						},
+						"description": "Test with an irrelevant hiring announcement (should be classified as irrelevant)"
+					}
+				},
+				{
+					"name": "Test - Irrelevant Post (Retirement)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Kevin Lee\",\n  \"about\": \"Senior Executive\",\n  \"description\": \"After 30 wonderful years at TechCorp, I'm retiring. Thank you all for the memories!\",\n  \"userProfileUrl\": \"https://linkedin.com/in/kevinlee\",\n  \"source\": \"LinkedIn\",\n  \"searchJobTitle\": \"\",\n  \"companyLinks\": []\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/extract/llm",
+							"host": ["{{base_url}}"],
+							"path": ["extract", "llm"]
+						},
+						"description": "Test with retirement announcement (should be classified as irrelevant)"
+					}
+				},
+				{
+					"name": "Test - Multiple Job Changes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Chris Brown\",\n  \"about\": \"CEO | Business Leader\",\n  \"description\": \"Exciting changes at our company! Maria Garcia has joined as VP of Sales, and James Taylor has been promoted to Director of Marketing. Congratulations to both!\",\n  \"userProfileUrl\": \"https://linkedin.com/in/chrisbrown\",\n  \"source\": \"LinkedIn\",\n  \"searchJobTitle\": \"\",\n  \"companyLinks\": []\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/extract/llm",
+							"host": ["{{base_url}}"],
+							"path": ["extract", "llm"]
+						},
+						"description": "Test with multiple job changes in one post (should extract both)"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8001",
+			"type": "string"
+		}
+	]
+}
