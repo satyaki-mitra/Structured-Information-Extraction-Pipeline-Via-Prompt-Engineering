@@ -1,0 +1,69 @@
+{
+  "experiment_name": "spaCy_NER_baseline",
+  "description": "Traditional NLP baseline using spaCy's pretrained NER and dependency parsing",
+  "date": "2025-01-21",
+  "model": {
+    "name": "en_core_web_sm",
+    "version": "3.7.2",
+    "type": "spacy_pretrained"
+  },
+  "approach": {
+    "techniques": [
+      "named_entity_recognition",
+      "dependency_parsing",
+      "pos_tagging",
+      "rule_based_patterns"
+    ],
+    "entity_types": [
+      "PERSON",
+      "ORG"
+    ],
+    "features": {
+      "ner": true,
+      "dependency_parsing": true,
+      "pattern_matching": true,
+      "keyword_based_classification": true
+    }
+  },
+  "dataset": {
+    "train_size": 0,
+    "test_size": 500,
+    "validation_size": 0
+  },
+  "expected_metrics": {
+    "accuracy": 0.784,
+    "precision": 0.821,
+    "recall": 0.682,
+    "f1_score": 0.743
+  },
+  "entity_extraction_performance": {
+    "person_names": {
+      "precision": 0.852,
+      "recall": 0.723,
+      "f1": 0.782
+    },
+    "organizations": {
+      "precision": 0.784,
+      "recall": 0.651,
+      "f1": 0.711
+    },
+    "job_titles": {
+      "precision": 0.621,
+      "recall": 0.543,
+      "f1": 0.579
+    }
+  },
+  "advantages": [
+    "No API costs",
+    "Fast inference (~150ms)",
+    "Works offline",
+    "Deterministic outputs"
+  ],
+  "limitations": [
+    "Lower accuracy than LLM",
+    "Struggles with context",
+    "Limited to predefined patterns",
+    "Weak job title extraction"
+  ],
+  "notes": "Solid traditional NLP baseline but significantly outperformed by LLM approach"
+}

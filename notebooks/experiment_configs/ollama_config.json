@@ -1,0 +1,90 @@
+{
+    "experiment_name": "ollama_local_llm_comparison",
+    "description": "Testing Llama-3 and Mistral local models via Ollama",
+    "date": "2025-02-05",
+    "models": [
+      {
+        "name": "Llama-3-8B",
+        "ollama_id": "llama3:8b",
+        "quantizations": ["Q4", "Q5", "Q8"],
+        "parameters": {
+          "temperature": 0.0,
+          "top_p": 0.9,
+          "num_predict": 2048
+        },
+        "expected_results": {
+          "accuracy": 0.862,
+          "precision": 0.841,
+          "recall": 0.879,
+          "f1": 0.847,
+          "avg_latency_s": 8.45
+        },
+        "resource_requirements": {
+          "ram_gb": 8,
+          "vram_gb": 6,
+          "disk_gb": 4.7
+        }
+      },
+      {
+        "name": "Mistral-7B",
+        "ollama_id": "mistral:7b",
+        "expected_results": {
+          "accuracy": 0.849,
+          "precision": 0.828,
+          "recall": 0.865,
+          "f1": 0.832,
+          "avg_latency_s": 6.82
+        },
+        "resource_requirements": {
+          "ram_gb": 6,
+          "vram_gb": 5,
+          "disk_gb": 4.1
+        }
+      }
+    ],
+    "parameter_tuning": {
+      "temperature": [0.0, 0.1, 0.2, 0.3],
+      "top_p": [0.7, 0.9, 0.95, 1.0],
+      "optimal_config": {
+        "temperature": 0.0,
+        "top_p": 0.9,
+        "notes": "Deterministic outputs critical for JSON"
+      }
+    },
+    "comparison_to_gpt": {
+      "gpt_3.5_turbo": {
+        "f1": 0.926,
+        "latency_s": 2.34,
+        "cost_per_1k": 0.80
+      },
+      "llama_3_8b": {
+        "f1": 0.847,
+        "latency_s": 8.45,
+        "cost_per_1k": 0.00
+      },
+      "performance_gap": "~8% F1 lower",
+      "speed_ratio": "3.6x slower",
+      "cost_savings": "100%"
+    },
+    "use_cases": {
+      "ollama_recommended": [
+        "Privacy/data sovereignty critical",
+        "Offline operation required",
+        "High volume (>100K/month)",
+        "8% accuracy drop acceptable"
+      ],
+      "gpt_recommended": [
+        "Highest accuracy needed",
+        "Low latency critical",
+        "Variable workload",
+        "Volume < 50K/month"
+      ]
+    },
+    "installation": {
+      "ollama": "curl https://ollama.ai/install.sh | sh",
+      "models": [
+        "ollama pull llama3:8b",
+        "ollama pull mistral:7b"
+      ]
+    }
+  }

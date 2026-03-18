@@ -1,0 +1,35 @@
+{
+  "experiment_name": "LLM_v1_baseline",
+  "description": "Baseline prompt with simple instructions",
+  "date": "2025-01-15",
+  "model": {
+    "name": "gpt-3.5-turbo-instruct",
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "seed": 1234
+  },
+  "prompt": {
+    "version": "v1",
+    "techniques": [
+      "basic_instruction"
+    ],
+    "features": {
+      "chain_of_thought": false,
+      "few_shot_learning": false,
+      "constraint_filtering": false,
+      "structured_output": true
+    }
+  },
+  "dataset": {
+    "train_size": 0,
+    "test_size": 500,
+    "validation_size": 0
+  },
+  "expected_metrics": {
+    "accuracy": 0.782,
+    "precision": 0.765,
+    "recall": 0.779,
+    "f1_score": 0.772
+  },
+  "notes": "Baseline experiment to establish minimum performance without advanced techniques"
+}

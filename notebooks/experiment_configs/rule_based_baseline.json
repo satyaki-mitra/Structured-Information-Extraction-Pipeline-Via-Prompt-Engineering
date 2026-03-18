@@ -1,0 +1,75 @@
+{
+  "experiment_name": "rule_based_baseline",
+  "description": "Regex pattern matching baseline extractor",
+  "date": "2025-02-05",
+  "model_config": {
+    "extractor_type": "RuleBasedExtractor",
+    "approach": "regex_patterns",
+    "keyword_matching": true,
+    "capitalization_rules": true
+  },
+  "pattern_sets": {
+    "job_keywords": {
+      "new_job": [
+        "starting a new position",
+        "joined.*team",
+        "happy to announce.*position",
+        "excited to share.*new role",
+        "pleased to announce.*joining"
+      ],
+      "promotion": [
+        "promoted to",
+        "elevated to",
+        "new responsibilities",
+        "advancement to"
+      ],
+      "transition": [
+        "moved to",
+        "transitioned to",
+        "changing roles",
+        "transferring to"
+      ],
+      "appointment": [
+        "appointed as",
+        "named to",
+        "elected as",
+        "designated as"
+      ]
+    },
+    "irrelevant_patterns": [
+      "hiring for",
+      "looking for",
+      "seeking.*candidate",
+      "open position",
+      "job opening",
+      "retiring"
+    ]
+  },
+  "data_config": {
+    "test_set": "data/annotations/ground_truth_500.json",
+    "test_size": 500
+  },
+  "expected_results": {
+    "accuracy": 0.716,
+    "precision": 0.587,
+    "recall": 0.641,
+    "f1_score": 0.612
+  },
+  "advantages": [
+    "Extremely fast (~12ms per request)",
+    "No API costs",
+    "Fully deterministic",
+    "Interpretable rules"
+  ],
+  "limitations": [
+    "Brittle to linguistic variation",
+    "Poor at context understanding",
+    "Low precision and recall",
+    "Requires manual pattern maintenance"
+  ],
+  "notes": [
+    "Simplest baseline for comparison",
+    "Useful for high-throughput scenarios",
+    "Can serve as pre-filter for LLM"
+  ]
+}

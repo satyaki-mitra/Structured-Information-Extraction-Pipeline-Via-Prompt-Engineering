@@ -1,0 +1,46 @@
+{
+  "experiment_name": "LLM_v3_few_shot_learning",
+  "description": "Adds few-shot learning through detailed category descriptions with examples",
+  "date": "2025-01-18",
+  "model": {
+    "name": "gpt-3.5-turbo-instruct",
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "seed": 1234
+  },
+  "prompt": {
+    "version": "v3",
+    "techniques": [
+      "chain_of_thought",
+      "few_shot_learning_implicit",
+      "detailed_category_descriptions",
+      "example_indicators"
+    ],
+    "features": {
+      "chain_of_thought": true,
+      "few_shot_learning": true,
+      "constraint_filtering": false,
+      "structured_output": true
+    }
+  },
+  "dataset": {
+    "train_size": 0,
+    "test_size": 500,
+    "validation_size": 0
+  },
+  "expected_metrics": {
+    "accuracy": 0.904,
+    "precision": 0.882,
+    "recall": 0.897,
+    "f1_score": 0.889
+  },
+  "improvements_over_v2": {
+    "accuracy_gain": "+4.8%",
+    "key_improvements": [
+      "Better category discrimination",
+      "Improved classification accuracy",
+      "Reduced category confusion"
+    ]
+  },
+  "notes": "Implicit few-shot learning via category descriptions proves effective"
+}

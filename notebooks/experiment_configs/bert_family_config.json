@@ -1,0 +1,68 @@
+{
+    "experiment_name": "bert_family_comparison",
+    "description": "Fine-tuning BERT, RoBERTa, and DeBERTa for job classification",
+    "date": "2025-02-05",
+    "models": [
+      {
+        "name": "BERT-base",
+        "model_id": "bert-base-uncased",
+        "training_config": {
+          "epochs": 3,
+          "batch_size": 16,
+          "learning_rate": 2e-5,
+          "warmup_steps": 100,
+          "weight_decay": 0.01
+        },
+        "expected_results": {
+          "accuracy": 0.856,
+          "precision": 0.832,
+          "recall": 0.878,
+          "f1": 0.854
+        }
+      },
+      {
+        "name": "RoBERTa-base",
+        "model_id": "roberta-base",
+        "expected_results": {
+          "accuracy": 0.874,
+          "precision": 0.851,
+          "recall": 0.892,
+          "f1": 0.871
+        }
+      },
+      {
+        "name": "DeBERTa-base",
+        "model_id": "microsoft/deberta-base",
+        "expected_results": {
+          "accuracy": 0.891,
+          "precision": 0.873,
+          "recall": 0.905,
+          "f1": 0.889
+        }
+      }
+    ],
+    "data_config": {
+      "train_split": 0.7,
+      "val_split": 0.15,
+      "test_split": 0.15,
+      "total_samples": 500
+    },
+    "compute_requirements": {
+      "gpu_memory": "8GB minimum",
+      "training_time": "30-45 minutes per model",
+      "inference_speed": "~50ms per request"
+    },
+    "comparison_baseline": {
+      "gpt_3.5_v4": {
+        "f1": 0.926,
+        "training_required": false,
+        "cost_per_1k": 0.80
+      }
+    },
+    "key_findings": [
+      "BERT family requires labeled training data",
+      "Performance improves: BERT < RoBERTa < DeBERTa",
+      "All lag behind GPT-3.5 zero-shot prompting",
+      "Fine-tuning useful when API costs prohibitive"
+    ]
+  }

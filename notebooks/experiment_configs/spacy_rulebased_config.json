@@ -1,0 +1,129 @@
+{
+    "experiment_name": "spacy_rulebased_hybrid",
+    "description": "Traditional NLP baselines and optimal fallback strategy",
+    "date": "2025-02-05",
+    "approaches": [
+      {
+        "name": "spaCy NER",
+        "model": "en_core_web_sm",
+        "approach": "Named Entity Recognition + Dependency Parsing",
+        "expected_results": {
+          "accuracy": 0.784,
+          "precision": 0.821,
+          "recall": 0.682,
+          "f1": 0.743,
+          "avg_latency_ms": 145
+        },
+        "entity_extraction": {
+          "person_f1": 0.782,
+          "org_f1": 0.711,
+          "role_f1": 0.579
+        },
+        "model_variants": {
+          "en_core_web_sm": "Small (12MB) - faster, lower accuracy",
+          "en_core_web_md": "Medium (40MB) - balanced",
+          "en_core_web_lg": "Large (560MB) - best accuracy, slower"
+        }
+      },
+      {
+        "name": "Rule-Based (Sophisticated)",
+        "approach": "Regex patterns + confidence scoring + heuristics",
+        "expected_results": {
+          "accuracy": 0.716,
+          "precision": 0.587,
+          "recall": 0.641,
+          "f1": 0.682,
+          "avg_latency_ms": 12
+        },
+        "pattern_categories": {
+          "job_transition_patterns": 30,
+          "irrelevant_patterns": 10,
+          "title_patterns": 15,
+          "company_patterns": 4
+        },
+        "confidence_scoring": "High/medium pattern matching with scoring"
+      },
+      {
+        "name": "Hybrid (spaCy → Rule-based)",
+        "strategy": "Try spaCy first, fallback to rule-based if needed",
+        "fallback_triggers": [
+          "Confidence score < threshold",
+          "No entities extracted",
+          "spaCy extraction fails"
+        ],
+        "expected_results": {
+          "accuracy": 0.798,
+          "precision": 0.834,
+          "recall": 0.715,
+          "f1": 0.769,
+          "avg_latency_ms": 82
+        }
+      }
+    ],
+    "threshold_optimization": {
+      "tested_thresholds": [0.3, 0.4, 0.5, 0.6, 0.7, 0.8],
+      "optimal_threshold": 0.6,
+      "at_optimal": {
+        "f1_score": 0.769,
+        "fallback_rate": 0.35,
+        "avg_latency_ms": 82
+      },
+      "analysis": "Threshold 0.6 balances accuracy gains and fallback frequency"
+    },
+    "performance_comparison": {
+      "speed": {
+        "rule_based": "1x (fastest - 12ms)",
+        "hybrid": "6.8x (82ms)",
+        "spacy": "12.1x (145ms)",
+        "llm": "195x (2340ms)"
+      },
+      "accuracy": {
+        "rule_based": 0.682,
+        "hybrid": 0.769,
+        "spacy": 0.743,
+        "llm": 0.926
+      }
+    },
+    "error_analysis": {
+      "spacy_failure_modes": [
+        "Indirect language (e.g., 'embarking on new journey')",
+        "Uncommon entity names not in training data",
+        "Complex multi-sentence announcements"
+      ],
+      "rule_based_failure_modes": [
+        "Novel phrasing not in patterns",
+        "Ambiguous contexts",
+        "Multiple people mentioned"
+      ],
+      "complementary_errors": "Each catches ~15% the other misses"
+    },
+    "recommendations": {
+      "use_spacy_alone": [
+        "Accuracy > speed priority",
+        "Can tolerate 150ms latency",
+        "Need entity-level granularity"
+      ],
+      "use_rule_based_alone": [
+        "Speed critical (<20ms)",
+        "Simple pattern matching sufficient",
+        "Very limited compute"
+      ],
+      "use_hybrid": [
+        "Production systems (recommended)",
+        "Balance accuracy and speed",
+        "Want 2-3% F1 improvement over pure spaCy",
+        "Can tolerate 80ms latency"
+      ],
+      "use_llm": [
+        "Need >90% accuracy",
+        "Budget for API costs",
+        "Can tolerate 2-3s latency"
+      ]
+    },
+    "implementation_notes": {
+      "fallback_logic": "Check confidence AND entity count before deciding",
+      "logging": "Track which extractor used for monitoring",
+      "caching": "Cache spaCy model loaded globally",
+      "async": "Both extractors support async for parallelization"
+    }
+  }

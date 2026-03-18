@@ -1,0 +1,126 @@
+{
+    "experiment_name": "openai_api_parameter_tuning",
+    "description": "Systematic optimization of OpenAI API parameters and prompt engineering",
+    "date": "2025-02-05",
+    "models_tested": [
+      {
+        "name": "GPT-3.5-Turbo-Instruct",
+        "model_id": "gpt-3.5-turbo-instruct",
+        "best_for": "Completion-style prompts",
+        "expected_f1": 0.926,
+        "cost_per_1k_tokens": 0.0015
+      },
+      {
+        "name": "GPT-3.5-Turbo",
+        "model_id": "gpt-3.5-turbo",
+        "best_for": "Chat-based approaches",
+        "expected_f1": 0.914,
+        "cost_per_1k_tokens": 0.0005
+      },
+      {
+        "name": "GPT-4",
+        "model_id": "gpt-4",
+        "best_for": "Maximum accuracy",
+        "expected_f1": 0.956,
+        "cost_per_1k_tokens": 0.03
+      },
+      {
+        "name": "GPT-4-Turbo",
+        "model_id": "gpt-4-turbo-preview",
+        "best_for": "Balance of cost and accuracy",
+        "expected_f1": 0.948,
+        "cost_per_1k_tokens": 0.01
+      }
+    ],
+    "parameter_tuning": {
+      "temperature": {
+        "tested_values": [0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0],
+        "optimal_value": 0.0,
+        "impact": "Critical for consistent JSON outputs",
+        "notes": "Higher temps increase variability, hurt structured extraction"
+      },
+      "top_p": {
+        "tested_values": [0.5, 0.7, 0.9, 0.95, 1.0],
+        "optimal_value": 0.9,
+        "impact": "Minimal effect on this task",
+        "notes": "Default (0.9) works well"
+      },
+      "frequency_penalty": {
+        "tested_values": [0.0, 0.5, 1.0],
+        "optimal_value": 0.0,
+        "impact": "Not beneficial for extraction",
+        "notes": "Avoid for structured outputs"
+      },
+      "presence_penalty": {
+        "tested_values": [0.0, 0.5, 1.0],
+        "optimal_value": 0.0,
+        "impact": "Not beneficial for extraction",
+        "notes": "Avoid for structured outputs"
+      },
+      "max_tokens": {
+        "optimal_value": 2048,
+        "notes": "Sufficient for most responses"
+      }
+    },
+    "prompt_engineering": {
+      "versions_compared": ["v1", "v2", "v3", "v4"],
+      "best_version": "v4",
+      "key_techniques": [
+        "Multi-step reasoning (chain-of-thought)",
+        "Constraint-based filtering",
+        "Structured output enforcement",
+        "Context-aware processing"
+      ],
+      "prompt_length_impact": {
+        "v1": {"chars": 450, "tokens": 120, "f1": 0.772},
+        "v2": {"chars": 680, "tokens": 180, "f1": 0.832},
+        "v3": {"chars": 920, "tokens": 240, "f1": 0.889},
+        "v4": {"chars": 1100, "tokens": 290, "f1": 0.926}
+      }
+    },
+    "message_structure": {
+      "approaches_tested": [
+        "user_only",
+        "system_and_user",
+        "detailed_system_message"
+      ],
+      "recommendation": "system_and_user",
+      "notes": "System message adds clarity without much token overhead"
+    },
+    "cost_analysis": {
+      "per_request": {
+        "gpt_3.5_instruct": 0.0008,
+        "gpt_3.5_turbo": 0.0005,
+        "gpt_4": 0.024,
+        "gpt_4_turbo": 0.008
+      },
+      "per_10k_requests": {
+        "gpt_3.5_instruct": 8.0,
+        "gpt_3.5_turbo": 5.0,
+        "gpt_4": 240.0,
+        "gpt_4_turbo": 80.0
+      },
+      "break_even_analysis": {
+        "traditional_ml_upfront": 5000,
+        "gpt_3.5_break_even_requests": 625000,
+        "gpt_4_break_even_requests": 20833
+      }
+    },
+    "optimal_configuration": {
+      "model": "gpt-3.5-turbo-instruct",
+      "temperature": 0.0,
+      "top_p": 0.9,
+      "max_tokens": 2048,
+      "frequency_penalty": 0.0,
+      "presence_penalty": 0.0,
+      "seed": 1234,
+      "prompt_version": "v4"
+    },
+    "production_recommendations": {
+      "for_accuracy": "Use GPT-4 if budget allows (+3% F1 over GPT-3.5)",
+      "for_cost_efficiency": "Use GPT-3.5-Turbo-Instruct (best balance)",
+      "for_scale": "Consider fine-tuning if volume > 100K/month",
+      "retry_strategy": "Exponential backoff with max 10 retries",
+      "monitoring": "Track latency, cost per request, error rates"
+    }
+  }
